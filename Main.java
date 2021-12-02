@@ -1,4 +1,5 @@
 import java.io.FileNotFoundException;
+import java.security.cert.CertPathChecker;
 import java.util.*;
 
 /**
@@ -16,51 +17,51 @@ public class Main {
 
     public static void main(String[] args) throws FileNotFoundException {
 
-        Scanner in = new Scanner(System.in);
-        //favortext
+
+        //flavor text
         System.out.println("Prof. Oak: Hello there new trainer, what is your name?");
-        String trainerName = in .nextLine();
+        String trainerName = CheckInput.getString();
         System.out.println("Great to meet you, " + trainerName);
         System.out.println("And no I won't send you into danger, just so you can get your first pokemon.");
 
-        var map = Map.getInstance();
+        Map map = Map.getInstance();
+        int level = 1;
         Trainer trainer = null;
 
         boolean cont = true;
-        while (cont == true) {
-            //text for pokemon
+        while (cont) {
+            //text for Pokémon
             System.out.println("Choose your first pokemon: ");
             System.out.println("1. Charmander ");
             System.out.println("2. Bulbasaur ");
             System.out.println("3. Squirtle \n");
 
             try {
-                switch ( in .nextInt()) {
+                switch (in.nextInt()) {
                     //check what user entered and grant them their pokemon
-                    case 1:
+                    case 1 -> {
                         Pokemon charmander = new Charmander();
                         trainer = new Trainer(trainerName, charmander, map);
                         cont = false;
-                        break;
-                    case 2:
+                    }
+                    case 2 -> {
                         Pokemon bulbasaur = new Bulbasaur();
                         trainer = new Trainer(trainerName, bulbasaur, map);
                         cont = false;
-                        break;
-                    case 3:
+                    }
+                    case 3 -> {
                         Pokemon squirtle = new Squirtle();
                         trainer = new Trainer(trainerName, squirtle, map);
                         cont = false;
-                        break;
+                    }
                 }
             } catch (NumberFormatException ex) {
                 System.out.println("Error:" + ex);
                 System.out.println("Invalid input.");
-                continue;
             }
         }
         int selection = 0;
-        do {
+        while (true){
             //selection
             System.out.println(trainer.toString());
             selection = mainMenu();
@@ -84,35 +85,55 @@ public class Main {
                 break;
             }
             //should auto switch map if f
-            Random random = new Random();
-            int chance = random.nextInt(100);
+
+            int chance = (int)(Math.random() * 100);
             //System.out.println("character:" + map.getCharAtLoc(trainer.getLocation()));
             char place = map.getCharAtLoc(trainer.getLocation());
             switch (place) {
 
                 //n nonthing
                 //c city
-                //f finish
+                //w wild Pokemon fight
+                //f finish - Gym
                 //s start
                 //i item
-                //p person - is removed after defeated and we can make them do whatever
+                //p person - is removed after defeated
                 case 'w':
-                    trainerAttack(trainer, chooseRandomPokemon());
+                    System.out.println("A wild Pokemon has appeared.");
+                    trainerAttack(trainer, PokemonGenerator.generateRandomPokemon(level));
+
+                    int numOfWildFightChoices = 4;
+
+                    int fightMenuChoice = 0;
+
+                    String wildFightChoice = """
+                                            What do you want to do?\s
+                                            1. Fight
+                                            2. Use Potion
+                                            3. Throw Poke Ball
+                                            4. Run Away
+                                            """;
+
                     map.removeCharAtLoc(trainer.getLocation());
 
                 case 'c':
                     store(trainer);
                 case 'p':
-                    int rs = random.nextInt(3);
+                    int rs = (int) (Math.random() * 3);
+
                     if (rs == 1) {
-                        System.out.println("You found a pokeball and a potion in the wild.");
+                        System.out.println("You found a Pokeball and a potion in the wild.");
                         trainer.recievePotion();
                         trainer.recievePokeball();
 
-                    } if (rs == 2) {
-                    System.out.println("You found 5 dollars on the ground.(Theif!!)");
+                    }
+
+                    if (rs == 2) {
+                    System.out.println("You found 5 dollars on the ground.(Thief!!)");
                     trainer.recieveMoney(5);
-                }if (rs == 3) {
+                    }
+
+                    if (rs == 3) {
                     String[] DamagingEvents = {
                             "You were jumped by team rocket",
                             "You fell in a diglet hole.",
@@ -120,15 +141,51 @@ public class Main {
                             "You stumbled into an sleeping Ancient Charmander."
                     };
 
-                    int messageSelection = random.nextInt(DamagingEvents.length);
+                    int messageSelection = (int)(Math.random() * DamagingEvents.length);
                     System.out.println(DamagingEvents[messageSelection]);
                     System.out.println("You take 10 damage.");
                     trainer.takeDamage(10);
                     map.removeCharAtLoc(trainer.getLocation());
-
                 }
+
                 case 'f':
-                    System.out.println("You've found the finish...");
+                    System.out.println("You've found the Gym...");
+                    Pokemon gymPokemon = PokemonGenerator.generateRandomPokemon(level+2);
+                    Pokemon trainerPokemon = trainer.getPokemon(0);
+
+                    int numOfGymFightChoices = 2;
+                    String gymFightChoice = """
+                                            What do you want to do?\s
+                                            1. Fight
+                                            2. Use Potion
+                                            """;
+                    fightMenuChoice = CheckInput.getIntRange(1,2) ;
+
+                    if(fightMenuChoice == 1) {
+                        trainerPokemon = trainerAttack(trainer, gymPokemon);
+                    }
+                    else
+                    {
+                        //On potion use
+                        //heals the pokemon to full
+                        trainerPokemon.heal();
+                        //And selects at random a buff
+                        trainerPokemon = (((int)(Math.random() * 2)) +1 ) > 1 ? (new AttackUp(trainerPokemon)) : (new HpUp(trainerPokemon));
+                    }
+
+                    if(gymPokemon.getHp() == 0) {
+                        switch (level % 3) {
+                            case 1:
+                                Map.loadMap(1);
+                            case 2:
+                                Map.loadMap(2);
+                            case 0:
+                                Map.loadMap(3);
+                        }
+
+                        trainer.buffAllPokemon();
+                    }
+
 
                 case 'i':
                     String award = (chance > 50) ? ("You found 1 pokeball!") : ("You found 1 potion!");
@@ -142,11 +199,8 @@ public class Main {
                     System.out.println(award);
                     map.removeCharAtLoc(trainer.getLocation());
                 }
-
-
-                default:
             }
-        } while (selection != 5);
+        }
 
     }
     /**
@@ -172,224 +226,191 @@ public class Main {
         return selection;
     }
 
-    /**
-     * This method gives you a random pokemon
-     * @return Returns a random Pokemon.
-     */
-    public static Pokemon chooseRandomPokemon() {
-        Pokemon[] listOfPokemons = {
-                new Charmander(),
-                new Bulbasaur(),
-                new Squirtle(),
-                new Ponyta(),
-                new Staryu(),
-                new Oddish()
-        };
-        Random random = new Random();
-        int selection = random.nextInt(6);
-
-        return listOfPokemons[selection];
-
-    }
-
     //BATTLE LOOP
     /**
      * This method allows a Trainer and a wild pokemon to battle.
      * @param t is the Trainer battling.
-     * @param wild is the the wild pokemon.
+     * @param wild is the wild pokemon.
      * @exception FileNotFoundException throws an Exception if it fails to find the file for the next map.
      */
-    public static void trainerAttack(Trainer t, Pokemon wild) throws FileNotFoundException {
+    public static Pokemon trainerAttack(Trainer t, Pokemon wild) throws FileNotFoundException {
 
-        Random random = new Random();
-        Scanner in = new Scanner(System.in);
-        int fightMenuChoice = 0;
         //loop battle system
-        System.out.println("A wild " + wild.name + " has appeared.");
-        System.out.println("Choose your pokemon\n");
-        Pokemon p;
-        int pokeIndex;
 
-        while (true) {
-            try {
-                //get pokemon you wish to use
-                System.out.println(t.getPokemonList());
-                pokeIndex = in .nextInt();
-                p = t.getPokemon(pokeIndex - 1);
-                break;
-            } catch (Exception e) {
-                System.out.println("Enter an valid selection number, between 1 - " + t.getPokemonList().length());
+        Pokemon p = null;
+
+        //fight menu
+        System.out.println("""
+                What do you want to do?\s
+                1. Fight
+                2. Use Potion
+                3. Throw Poke Ball
+                4. Run Away""");
+
+        //get the choice
+        int fightMenuChoice = CheckInput.getIntRange(1,4);
+
+        for(int i=0;i<t.getNumPokemon();i++)
+        {
+            if(t.getPokemon(i).getHp() != 0)
+            {
+                p = t.getPokemon(i);
             }
         }
 
-        while (fightMenuChoice != 4) {
-            //fight menu
-            System.out.println("What do you want to do? " +
-                    "\n1. Fight" +
-                    "\n2. Use Potion" +
-                    "\n3. Throw Poke Ball" +
-                    "\n4. Run Away");
+        if (fightMenuChoice == 1) {
 
-            //get the choice
-            fightMenuChoice = in.nextInt();
+            /*
+            1. Basic Attack
+            2. Special Attack
+            */
 
-            boolean pokemonAlive = false;
-
-            for(int i=0;i<t.getNumPokemon();i++)
+            if (p == null)
             {
-                if(t.getPokemon(i).getHp() != 0)
-                {pokemonAlive = true;
-                    break;}
+                System.out.println("All of your Pokemon are at 0 hp.\nYou can run away or use a potion.\n");
+                return p;
             }
 
-            if (fightMenuChoice == 1) {
+            while(wild.getHp() != 0 && p.getHp() != 0) {
+                //attack menu
+                System.out.println(p.getAttackMenu());
+                int choice = CheckInput.getInt();
 
-          /*
-          1. Basic Attack
-          2. Special Attack
-          */
+                if (choice == 1) {
 
-                if (!pokemonAlive)
-                {System.out.println("All of your Pokemon are at 0 hp.\nYou can run away or use a potion.\n");}
+                    while (p.getHp() != 0) {
 
-                while(wild.getHp() != 0 && p.getHp() != 0) {
-                    //attack menu
-                    System.out.println(p.getAttackMenu());
-                    int choice = in.nextInt();
+                        //basic menu
+                        System.out.println(p.getBasicMenu());
+                        choice = CheckInput.getInt();
 
-                    if (choice == 1) {
-
-                        while (true && p.getHp() != 0) {
-
-                            //basic menu
-                            System.out.println(p.getBasicMenu());
-                            choice = in.nextInt();
-
-                            if (choice < p.getNumBasicMenuItems()+1 && choice > -1) break;
-                            System.out.println("Enter a number between 1 - " + p.getNumBasicMenuItems()+"\n");
-                        }
-                        p.basicAttack(wild, choice);
-
-                        // Pokemon attacks.
-                        int BasicOrSpecial = random.nextInt(2);
-                        if (BasicOrSpecial == 1) {
-                            wild.basicAttack(p, random.nextInt(p.getNumBasicMenuItems()) + 1);
-                        } else {
-                            System.out.println(wild.specialAttack(p, random.nextInt(p.getNumSpecialMenuItems()) + 1));
-                        }
-                        break;
+                        if (choice < p.getNumBasicMenuItems()+1 && choice > -1) break;
+                        System.out.println("Enter a number between 1 - " + p.getNumBasicMenuItems()+"\n");
                     }
-                    else if (choice == 2 && p.getHp() != 0) {
-                        //special attack menu
-                        while (true && p.getHp() != 0 ) {
-                            System.out.println(p.getSpecialMenu());
-                            choice = in.nextInt();
-                            if (choice < p.getNumSpecialMenuItems()+1 && choice > 0) break;
-                            System.out.println("Enter a number between 1 - " + p.getNumSpecialMenuItems());
-                        }
-                        System.out.println(p.specialAttack(wild, choice));
-
-                        // Pokemon attacks.
-                        int BasicOrSpecial = random.nextInt(2);
-                        if (BasicOrSpecial == 1) {
-                            wild.basicAttack(p, random.nextInt(p.getNumBasicMenuItems()) + 1);
-                        } else {
-                            System.out.println(wild.specialAttack(p, random.nextInt(p.getNumSpecialMenuItems()) + 1));
-                        }
-                        break;
-
-
-
-                    } else {
-                        System.out.println("Enter either 1 or 2");
-                        continue;
-                    }
-                }
-            }
-            else if (fightMenuChoice == 2) {
-                //uses a potion
-                t.usePotion(pokeIndex);
-
-                int BasicOrSpecial = random.nextInt(2);
-                if (BasicOrSpecial == 1) {
-                    wild.basicAttack(p, random.nextInt(p.getNumBasicMenuItems()) + 1);
-                } else {
-                    System.out.println(wild.specialAttack(p, random.nextInt(p.getNumSpecialMenuItems()) + 1));
-                }
-            } else if (fightMenuChoice == 3) {
-                //attempt to catch pokemon
-                boolean caught = t.catchPokemon(wild);
-                // If the catching attempt is a fail, the pokemon attacks.
-                if (caught == false) {
-                    int BasicOrSpecial = random.nextInt(2);
-                    if (BasicOrSpecial == 1) {
-                        wild.basicAttack(p, random.nextInt(p.getNumBasicMenuItems()) + 1);
-                    } else {
-                        System.out.println(wild.specialAttack(p, random.nextInt(p.getNumSpecialMenuItems()) + 1));
-                    }
-                }
-
-            } else if (fightMenuChoice == 4) {
-                //try and run away
-                int percentage = random.nextInt(100);
-                boolean pass = false;
-                //chance to run away
-                if (percentage > 60) {
-                    System.out.println("You successfully ran away.");
-                    do {
-
-                        switch (random.nextInt(4)) {
-                            case 0:
-                                //go direction and see if legal move
-                                if (t.goEast() == '0') {
-                                    continue;
-                                } else {
-                                    pass = true;
-                                    break;
-                                }
-                            case 1:
-                                //go direction and see if legal move
-
-                                if (t.goNorth() == '0') {
-                                    continue;
-                                } else {
-                                    pass = true;
-                                    break;
-                                }
-                            case 2:
-                                //go direction and see if legal move
-
-                                if (t.goSouth() == '0') {
-                                    continue;
-                                } else {
-                                    pass = true;
-                                    break;
-                                }
-                            case 3:
-                                //go direction and see if legal move
-                                if (t.goWest() == '0') {
-                                    continue;
-                                } else {
-                                    pass = true;
-                                    break;
-                                }
-                        }
-                    } while (pass = false);
-                } else {
-                    //failed to run away
-                    System.out.println("You failed to run away.");
-                    fightMenuChoice = 0;
+                    p.basicAttack(wild, choice);
 
                     // Pokemon attacks.
-                    int BasicOrSpecial = random.nextInt(2);
+                    int BasicOrSpecial = (int)(Math.random() * 2);
                     if (BasicOrSpecial == 1) {
-                        wild.basicAttack(p, random.nextInt(p.getNumBasicMenuItems()) + 1);
+                        wild.basicAttack(p, (int)(Math.random() * p.getNumBasicMenuItems()) + 1);
                     } else {
-                        System.out.println(wild.specialAttack(p, random.nextInt(p.getNumSpecialMenuItems()) + 1));
+                        System.out.println(wild.specialAttack(p, (int)(Math.random() * p.getNumSpecialMenuItems()) + 1));
                     }
+                    break;
+                }
+                else if (choice == 2 && p.getHp() != 0) {
+                    //special attack menu
+                    while (true && p.getHp() != 0 ) {
+                        System.out.println(p.getSpecialMenu());
+                        choice = CheckInput.getInt();
+                        if (choice < p.getNumSpecialMenuItems()+1 && choice > 0) break;
+                        System.out.println("Enter a number between 1 - " + p.getNumSpecialMenuItems());
+                    }
+                    System.out.println(p.specialAttack(wild, choice));
+
+                    // Pokemon attacks.
+                    int BasicOrSpecial = (int)(Math.random() * 2);
+                    if (BasicOrSpecial == 1) {
+                        wild.basicAttack(p, (int)(Math.random() * p.getNumBasicMenuItems()) + 1);
+                    } else {
+                        System.out.println(wild.specialAttack(p, (int)(Math.random() * p.getNumSpecialMenuItems()) + 1));
+                    }
+                    break;
+
+
+
+                } else {
+                    System.out.println("Enter either 1 or 2");
+                    continue;
                 }
             }
         }
+        else if (fightMenuChoice == 2) {
+            //uses a potion
+            t.usePotion(pokeIndex);
+
+            int BasicOrSpecial = (int)(Math.random() * 2);
+            if (BasicOrSpecial == 1) {
+                wild.basicAttack(p, (int)(Math.random() * p.getNumBasicMenuItems()) + 1);
+            } else {
+                System.out.println(wild.specialAttack(p, (int)(Math.random() * p.getNumSpecialMenuItems()) + 1));
+            }
+        } else if (fightMenuChoice == 3) {
+            //attempt to catch pokemon
+            boolean caught = t.catchPokemon(wild);
+            // If the catching attempt is a fail, the pokemon attacks.
+            if (caught == false) {
+                int BasicOrSpecial =(int)(Math.random() * 2);
+                if (BasicOrSpecial == 1) {
+                    wild.basicAttack(p, (int)(Math.random() * p.getNumBasicMenuItems()) + 1);
+                } else {
+                    System.out.println(wild.specialAttack(p, (int)(Math.random() * p.getNumSpecialMenuItems()) + 1));
+                }
+            }
+
+        } else if (fightMenuChoice == 4) {
+            //try and run away
+            int percentage = random.nextInt(100);
+            boolean pass = false;
+            //chance to run away
+            if (percentage > 60) {
+                System.out.println("You successfully ran away.");
+                do {
+
+                    switch ((int)(Math.random() * 4)) {
+                        case 0:
+                            //go direction and see if legal move
+                            if (t.goEast() == '0') {
+                                continue;
+                            } else {
+                                pass = true;
+                                break;
+                            }
+                        case 1:
+                            //go direction and see if legal move
+
+                            if (t.goNorth() == '0') {
+                                continue;
+                            } else {
+                                pass = true;
+                                break;
+                            }
+                        case 2:
+                            //go direction and see if legal move
+
+                            if (t.goSouth() == '0') {
+                                continue;
+                            } else {
+                                pass = true;
+                                break;
+                            }
+                        case 3:
+                            //go direction and see if legal move
+                            if (t.goWest() == '0') {
+                                continue;
+                            } else {
+                                pass = true;
+                                break;
+                            }
+                    }
+                } while (pass = false);
+            } else {
+                //failed to run away
+                System.out.println("You failed to run away.");
+                fightMenuChoice = 0;
+
+                // Pokemon attacks.
+                int BasicOrSpecial = (int)(Math.random() * 2);
+                if (BasicOrSpecial == 1) {
+                    wild.basicAttack(p, (int)(Math.random() * p.getNumBasicMenuItems()) + 1);
+                } else {
+                    System.out.println(wild.specialAttack(p, (int)(Math.random() * p.getNumSpecialMenuItems()) + 1));
+                }
+            }
+        }
+
+
+        return p;
     }
 
     /**
