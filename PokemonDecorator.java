@@ -1,4 +1,4 @@
-public abstract class PokemonDecorator extends Pokemon{
+public abstract class PokemonDecorator extends Pokemon {
 
 
     protected Pokemon pokemon;
@@ -11,7 +11,7 @@ public abstract class PokemonDecorator extends Pokemon{
      * @param extraHp hp change to be added to the Pokemon
      */
     public PokemonDecorator(Pokemon p, String extraName, int extraHp) {
-        this.pokemon=super(p.getName()+extraName,p.getHp(),p.getMaxHp()+extraHp);
+        super(p.getName()+extraName,p.getHp(),p.getMaxHp()+extraHp);
     }
 
     /**

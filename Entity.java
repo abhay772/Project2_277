@@ -5,13 +5,14 @@ public abstract class Entity {
   protected int maxHp;
   /**
    *Entity constructor
-   *@param name of the pokemon
-   *@param getMaxHp set maxHp
+   *@param n name of the Entity
+   *@param h current hp of the Entity
+   *@param m max hp of the Entity
    */
-  public Entity(String name, int maxHp) {
-    this.name = name;
-    this.hp = maxHp;
-    this.maxHp = maxHp;
+  public Entity(String n,int h,int m) {
+    this.name = n;
+    this.hp = h;
+    this.maxHp = m;
   }
   /**
    *get hp of entity
