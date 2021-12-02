@@ -48,11 +48,11 @@ public class Fire extends Pokemon {
     if (atkType==1) {
       switch (move) {
         case 1:
-          atkString = this.name + " used Ember\n";
+          atkString = " used EMBER\n";
         case 2:
-          atkString = this.name + " used Fire Blast\n";
+          atkString = " used FIRE BLAST\n";
         case 3:
-          atkString = this.name + " used Fire Punch\n";
+          atkString = " used FIRE PUNCH\n";
       }
     }
 
@@ -60,11 +60,11 @@ public class Fire extends Pokemon {
     {
       switch (move) {
         case 1:
-          atkString = this.name + " used slam\n";
+          atkString = "SLAMMED\n";
         case 2:
-          atkString = this.name + " used Tackle\n";
+          atkString ="TACKLED\n";
         case 3:
-          atkString = this.name + " used Punch\n";
+          atkString = "PUNCHED\n";
       }
     }
     return atkString;

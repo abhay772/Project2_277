@@ -78,19 +78,16 @@ public abstract class PokemonDecorator extends Pokemon {
      * @param atkType Type of attack: 1) Basic, 2) Special
      * @return any bonuses to damage based on the type of damage
      */
-    public int getAttackBonus(int atkType)
-    {
-        return pokemon.getAttackBonus(atkType);
-    }
+    public abstract int getAttackBonus(int atkType);
 
     public int getType()
     {
         if(pokemon instanceof Fire)
-        {return 1;}
+        {return 0;}
         else if(pokemon instanceof Water)
-        {return 2;}
+        {return 1;}
         else if(pokemon instanceof Grass)
-        {return 3;}
+        {return 2;}
         else
         {return -1;}
     }
