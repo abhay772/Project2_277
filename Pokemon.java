@@ -17,10 +17,35 @@ public abstract class Pokemon extends Entity {
         super(n,h,m);
     }
 
-    /*/**
-     * Menu for basic attacks
-     * @return Menu
-     */
+    public String getAttackTypeMenu(){
+        return "1. Basic Attack\n2. Special Attack";
+    }
+
+    public int getNumAttackTypeMenuItems(){
+        return 2;
+    }
+
+    public abstract String getAttackMenu(int atkType);
+
+    public abstract int getNumAttackMenuItems(int atkType);
+
+    public abstract String attack(Pokemon p, int atkType, int move);
+
+    public abstract String getAttackString(int atkType, int move);
+
+    public abstract int getType();
+
+    public abstract int getAttackDamage(int atkType, int move);
+
+    public abstract double getAttackMultiplier(Pokemon p, int atkType);
+
+    public abstract int getAttackBonus(int atkType);
+}
+
+/*/**
+ * Menu for basic attacks
+ * @return Menu
+ */
     /*public String getBasicMenu(){
         return "1. Slam\n2. Tackle\n3. Punch";
     }
@@ -78,66 +103,3 @@ public abstract class Pokemon extends Entity {
         int damage = (int)(Math.random() * 4) + 1;
         return "The base damage from this attack is " + damage;
     }*/
-    public String getAttackTypeMenu(){
-        return "1. Basic Attack\n2. Special Attack";
-    }
-
-    public int getNumAttackTypeMenuItems(){
-        return 2;
-    }
-
-    public String getAttackMenu(int atkType){
-        if(atkType == 1){
-            return "1. Slam\n2. Tackle\n3. Punch";
-        }
-        else{
-
-        }
-
-    }
-
-    public int getNumAttackMenuItems(int atkType){
-        return atkType;
-    }
-
-    public String attack(Pokemon p, int atkType, int move){
-
-    }
-
-    public String getAttackString(int atkType, int move){
-        if(atkType == 1) {
-            switch (move) {
-                case 1:
-                    return "SLAMMED\n";
-                case 2:
-                    return "TACKLED\n";
-                case 3:
-                    return "PUNCHED\n";
-            }
-        }
-        else{
-            if(move == 1)
-                return "used WATER GUN\n";
-            else if(move == 2)
-                return "used BUBBLE BEAM\n";
-            else
-                return "used WATERFALL\n";
-            }
-    }
-
-    public int getType(){
-        return 0;
-    }
-
-    public int getAttackDamage(int atkType, int move){
-
-    }
-
-    public double getAttackMultiplier(Pokemon p, int atkType){
-
-    }
-
-    public int getAttackBonus(int atkType){
-        return atkType;
-    }
-}

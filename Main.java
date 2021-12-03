@@ -25,11 +25,11 @@ public class Main {
         System.out.println("And no I won't send you into danger, just so you can get your first pokemon.");
 
         Map map = Map.getInstance();
+        PokemonGenerator pokemonGenerator = PokemonGenerator.getInstance();
         int level = 1;
         Trainer trainer = null;
 
-        boolean cont = true;
-        while (cont) {
+        while (true) {
             //text for Pokémon
             System.out.println("Choose your first pokemon: ");
             System.out.println("1. Charmander ");
@@ -37,22 +37,19 @@ public class Main {
             System.out.println("3. Squirtle \n");
 
             try {
-                switch (in.nextInt()) {
+                switch (CheckInput.getIntRange(1,3)) {
                     //check what user entered and grant them their pokemon
                     case 1 -> {
                         Pokemon charmander = new Charmander();
                         trainer = new Trainer(trainerName, charmander, map);
-                        cont = false;
                     }
                     case 2 -> {
                         Pokemon bulbasaur = new Bulbasaur();
                         trainer = new Trainer(trainerName, bulbasaur, map);
-                        cont = false;
                     }
                     case 3 -> {
                         Pokemon squirtle = new Squirtle();
                         trainer = new Trainer(trainerName, squirtle, map);
-                        cont = false;
                     }
                 }
             } catch (NumberFormatException ex) {
@@ -100,7 +97,7 @@ public class Main {
                 //p person - is removed after defeated
                 case 'w':
                     System.out.println("A wild Pokemon has appeared.");
-                    Pokemon wild = PokemonGenerator.generateRandomPokemon(level);
+                    Pokemon wild = pokemonGenerator.generateRandomPokemon(level);
                     Pokemon trainerPokemon = trainer.getPokemon(0);
 
                     int numOfWildFightChoices = 4;
@@ -278,7 +275,7 @@ public class Main {
 
                 case 'f':
                     System.out.println("You've found the Gym...");
-                    Pokemon gymPokemon = PokemonGenerator.generateRandomPokemon(level+2);
+                    Pokemon gymPokemon = pokemonGenerator.generateRandomPokemon(level+2);
                     trainerPokemon = trainer.getPokemon(0);
 
                     int numOfGymFightChoices = 2;

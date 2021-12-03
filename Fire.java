@@ -48,11 +48,11 @@ public class Fire extends Pokemon {
     if (atkType==1) {
       switch (move) {
         case 1:
-          atkString = " used EMBER on";
+          atkString = "SLAMMED";
         case 2:
-          atkString = " used FIRE BLAST on";
+          atkString ="TACKLED";
         case 3:
-          atkString = " used FIRE PUNCH on";
+          atkString = "PUNCHED";
       }
     }
 
@@ -60,11 +60,11 @@ public class Fire extends Pokemon {
     {
       switch (move) {
         case 1:
-          atkString = "SLAMMED\n";
+          atkString = " used EMBER on";
         case 2:
-          atkString ="TACKLED\n";
+          atkString = " used FIRE BLAST on";
         case 3:
-          atkString = "PUNCHED\n";
+          atkString = " used FIRE PUNCH on";
       }
     }
     return atkString;
@@ -83,14 +83,7 @@ public class Fire extends Pokemon {
     int damage=0;
 
     if (atkType==1) {
-      switch (move) {
-        case 1:
-          damage = (int) (Math.random() * 4);
-        case 2:
-          damage = (int) (Math.random() * 4)+1;
-        case 3:
-          damage = (int) (Math.random() * 3)+1;
-      }
+      return super.getAttackDamage(atkType, move);
     }
 
     else
