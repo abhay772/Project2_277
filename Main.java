@@ -1,10 +1,26 @@
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String arga[])
+    {
+        Pokemon one = PokemonGenerator.getInstance().generateRandomPokemon(1);
+        Pokemon two = PokemonGenerator.getInstance().generateRandomPokemon(1);
+        Pokemon three = PokemonGenerator.getInstance().generateRandomPokemon(1);
+
+        System.out.println(one.attack(three,1,0));
+    }
+
+
+/*
 import java.io.FileNotFoundException;
 import java.security.cert.CertPathChecker;
 import java.util.*;
 
+/*
 /**
  * Author: Abhay Solanki, Sharvay Ajit and Nathanael Wolski
- */import java.util.Scanner;
+
+ import java.util.Scanner;
 import java.util.Random;
 import java.io.FileNotFoundException;
 
@@ -12,7 +28,8 @@ import java.io.FileNotFoundException;
  *Date: 10/21/2021
  *Project 1
  *@author ESPINOSA, ARMANDO ,SOLANKI, ABHAY
- */
+ *//*
+
 public class Main {
 
     public static void main(String[] args) throws FileNotFoundException {
@@ -128,8 +145,8 @@ public class Main {
 
                             if(trainerPokemon == null)
                             {
-                                int atktype = (int) (Math.random() * wild.getNumAttackTypeMenuItems());
-                                int move = (int) (Math.random() * wild.getNumAttackMenuItems(atktype));
+                                int atktype = (int) (Math.random() * wild.getNumAttackTypeMenuItems())+1;
+                                int move = (int) (Math.random() * wild.getNumAttackMenuItems(atktype))+1;
 
                                 int damage = (int) Math.round((wild.getAttackDamage(atktype, move) + wild.getAttackBonus(atktype)));
                                 System.out.println(trainerName+" got attacked by the Wild Pokemon and took "+ damage);
@@ -161,8 +178,8 @@ public class Main {
                             trainerPokemon = pokemonGenerator.addRandomBuff(trainerPokemon);
 
                             // wild Pokemon attacks.
-                            int atktype = (int) (Math.random() * wild.getNumAttackTypeMenuItems());
-                            int move = (int) (Math.random() * wild.getNumAttackMenuItems(atktype));
+                            int atktype = (int) (Math.random() * wild.getNumAttackTypeMenuItems())+1;
+                            int move = (int) (Math.random() * wild.getNumAttackMenuItems(atktype))+1;
 
                             System.out.println(wild.attack(trainerPokemon,atktype,move));
 
@@ -180,8 +197,8 @@ public class Main {
                             // If the catching attempt is a fail, the Pokemon attacks.
                             if (!caught) {
                                 // Pokemon attacks.
-                                int atktype = (int) (Math.random() * wild.getNumAttackTypeMenuItems());
-                                int move = (int) (Math.random() * wild.getNumAttackMenuItems(atktype));
+                                int atktype = (int) (Math.random() * wild.getNumAttackTypeMenuItems())+1;
+                                int move = (int) (Math.random() * wild.getNumAttackMenuItems(atktype))+1;
 
                                 System.out.println(wild.attack(trainerPokemon,atktype,move));
 
@@ -230,8 +247,8 @@ public class Main {
                                 System.out.println("You failed to run away.");
 
                                 // Pokemon attacks.
-                                int atktype = (int) (Math.random() * wild.getNumAttackTypeMenuItems());
-                                int move = (int) (Math.random() * wild.getNumAttackMenuItems(atktype));
+                                int atktype = (int) (Math.random() * wild.getNumAttackTypeMenuItems())+1;
+                                int move = (int) (Math.random() * wild.getNumAttackMenuItems(atktype))+1;
 
                                 System.out.println(wild.attack(trainerPokemon,atktype,move));
 
@@ -324,8 +341,8 @@ public class Main {
                             trainer.usePotion(index+1);
 
                             // Gym Pokemon attacks.
-                            int atktype = (int) (Math.random() * gymPokemon.getNumAttackTypeMenuItems());
-                            int move = (int) (Math.random() * gymPokemon.getNumAttackMenuItems(atktype));
+                            int atktype = (int) (Math.random() * gymPokemon.getNumAttackTypeMenuItems()) +1 ;
+                            int move = (int) (Math.random() * gymPokemon.getNumAttackMenuItems(atktype)) +1 ;
 
                             System.out.println(trainerPokemon.attack(gymPokemon,atktype,move));
 
@@ -366,10 +383,12 @@ public class Main {
         }
 
     }
-    /**
+    */
+/**
      * This method displays the directional menu
      * @return returns user selection
-     */
+     *//*
+
     public static int mainMenu() {
 
         Scanner scanner = new Scanner(System.in);
@@ -388,6 +407,7 @@ public class Main {
         }
         return selection;
     }
+*/
 
     //BATTLE LOOP
     /**
@@ -422,12 +442,12 @@ public class Main {
         */
 
         System.out.println(p.getAttackTypeMenu());
-        int atktype = CheckInput.getIntRange(1,p.getNumAttackTypeMenuItems());
+        int atktype = CheckInput.getIntRange(1,p.getNumAttackTypeMenuItems())+1;
 
         // player attacks
         // attack menu and choice of move by the player
         System.out.println(p.getAttackMenu(atktype));
-        int move = CheckInput.getIntRange(1, p.getNumAttackMenuItems(atktype));
+        int move = CheckInput.getIntRange(1, p.getNumAttackMenuItems(atktype))+1;
 
         System.out.println(p.attack(wild, atktype,move));
 
@@ -441,8 +461,8 @@ public class Main {
         if(wild.getHp()<1){return p;}
 
         // Pokemon attacks.
-        atktype = (int)(Math.random() * wild.getNumAttackTypeMenuItems());
-        move = (int)(Math.random() * wild.getNumAttackMenuItems(atktype));
+        atktype = (int)(Math.random() * wild.getNumAttackTypeMenuItems())+1;
+        move = (int)(Math.random() * wild.getNumAttackMenuItems(atktype))+1;
 
         System.out.println(wild.attack(p,atktype,move));
 
