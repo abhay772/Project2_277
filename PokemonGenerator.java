@@ -31,6 +31,7 @@ public class PokemonGenerator {
     }
     public Pokemon generateRandomPokemon(int level){
 
+
         Iterator pokeIterator = pokemon.entrySet().iterator();
         int randIndex = (int)(Math.random() * pokemon.size());
 
@@ -40,9 +41,6 @@ public class PokemonGenerator {
         while(pokeIterator.hasNext() && counter != randIndex)
         {
             mapElement = (Map.Entry)pokeIterator.next();
-        }
-
-        return getPokemon((String)mapElement.getKey());
 
     }
 
