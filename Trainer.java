@@ -251,21 +251,22 @@ public class Trainer extends Entity {
 
     /**
      * Returns the list of all Pokemon with the Trainer.
-     * @result List of all the pokemon with the Trainer..
+     * @return  List of all the pokemon with the Trainer..
      */
     public String getPokemonList() {
 
-        String display = "";
+        StringBuilder display = new StringBuilder();
         for (int i = 0; i < this.getNumPokemon(); i++) {
-            display += i + 1 + ". " + this.getPokemon(i) + "\n";
+            display.append(i + 1).append(". ").append(this.getPokemon(i)).append("\n");
         }
-        return display;
+        return display.toString();
     }
 
     public Pokemon removePokemon(int index)
     {
+        Pokemon temp = pokemon.get(index-1);
         pokemon.remove(index-1);
-        return pokemon;
+        return temp;
     }
 
     /**
