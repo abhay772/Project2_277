@@ -87,16 +87,4 @@ public abstract class PokemonDecorator extends Pokemon {
     {
        return super.getAttackBonus(atkType);
     }
-
-    public int getType()
-    {
-        if(pokemon instanceof Fire)
-        {return 0;}
-        else if(pokemon instanceof Water)
-        {return 1;}
-        else if(pokemon instanceof Grass)
-        {return 2;}
-        else
-        {return -1;}
-    }
 }
