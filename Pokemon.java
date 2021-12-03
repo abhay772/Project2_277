@@ -62,7 +62,7 @@ public abstract class Pokemon extends Entity {
         {return 2;}
         else
         {return -1;}
-    };
+    }
 
     public int getAttackDamage(int atkType, int move)
     {
