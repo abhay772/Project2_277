@@ -35,16 +35,11 @@ public class PokemonGenerator {
         int ranIndex = new Random().nextInt(val.size());
         int mH = (int)(Math.random() * 6) + 20;
         String pokName = pokemon.get(val.get(ranIndex));
-        if(pokemon.get(pokName).equals(("Fire")))
-            newPokemon = new Fire(pokName, mH, mH);
-        else if(pokemon.get(pokName).equals(("Water")))
-            newPokemon = new Water(pokName, mH, mH);
-        else if(pokemon.get(pokName).equals(("Grass")))
-            newPokemon = new Grass(pokName, mH, mH);
-        for(int i = 0; i < level - 1; i++){
-            newPokemon = this.addRandomBuff(newPokemon);
+        switch(pokName) {
+            case ("Fire") -> newPokemon = new Fire(pokName, mH, mH);
+            case ("Water") -> newPokemon = new Water(pokName, mH, mH);
+            case ("Grass") -> newPokemon = new Grass(pokName, mH, mH);
         }
-        return newPokemon;
     }
 
     public Pokemon getPokemon(String name){
