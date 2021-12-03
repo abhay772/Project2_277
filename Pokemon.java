@@ -16,24 +16,46 @@ public abstract class Pokemon extends Entity {
     public Pokemon(String n,int h, int m){
         super(n,h,m);
     }
-
+/**
+     * choices for type of attack
+     * @return types of attacks
+     */
     public String getAttackTypeMenu(){
         return "1. Basic Attack\n2. Special Attack";
     }
-
+/**
+     * number of types of attacks
+     * @return amount of attack types
+     */
     public int getNumAttackTypeMenuItems(){
         return 2;
     }
-
+/**
+     * basic attack menu
+     * @param atkType type of attack
+     * @return menu displaying attacks
+     */
     public String getAttackMenu(int atkType)
     {
         return "1. Slam\n2. Tackle\n3. Punch";
     };
+    
+    /**
+     * number of attacks
+     * @param atkType type of attack
+     * @return number of attacks
+     */
     public int getNumAttackMenuItems(int atkType)
     {
         return 3;
     };
-
+/**
+     * calculates damage from attack and applies it to the pokemon
+     * @param p pokemon attacking
+     * @param atkType attack type
+     * @param move selects the move to use
+     * @return result of the attack
+     */
     public String attack(Pokemon p, int atkType, int move)
     {
         int damage = (int) Math.round((this.getAttackDamage(atkType, move) + this.getAttackBonus(atkType))
