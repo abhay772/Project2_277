@@ -40,6 +40,7 @@ public class PokemonGenerator {
             case ("Water") -> newPokemon = new Water(pokName, mH, mH);
             case ("Grass") -> newPokemon = new Grass(pokName, mH, mH);
         }
+        return newPokemon;
     }
 
     public Pokemon getPokemon(String name){
