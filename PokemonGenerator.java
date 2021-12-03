@@ -29,19 +29,20 @@ public class PokemonGenerator {
         else
             return instance;
     }
-    public Pokemon generateRandomPokemon(int level){
+    public Pokemon generateRandomPokemon(int level) {
 
 
         Iterator pokeIterator = pokemon.entrySet().iterator();
-        int randIndex = (int)(Math.random() * pokemon.size());
+        int randIndex = (int) (Math.random() * pokemon.size());
 
-        int counter=0;
+        int counter = 0;
 
         Map.Entry mapElement = null;
-        while(pokeIterator.hasNext() && counter != randIndex)
-        {
-            mapElement = (Map.Entry)pokeIterator.next();
+        while (pokeIterator.hasNext() && counter != randIndex) {
+            mapElement = (Map.Entry) pokeIterator.next();
+        }
 
+        return getPokemon((String) mapElement.getKey());
     }
 
     public Pokemon getPokemon(String name){
@@ -77,3 +78,5 @@ public class PokemonGenerator {
         return p;
     }
 }
+}
+
