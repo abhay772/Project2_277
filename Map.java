@@ -11,7 +11,7 @@ import java.util.Scanner;
 public class Map {
 
   private static Map instance = null;
-  private char[][] map = new char[5][5];
+  private char[][] map;
   private boolean[][] revealed = new boolean[5][5];
 
   /*
@@ -46,8 +46,9 @@ public class Map {
    *@return char[][] the whole map
    */
   public static char[][] loadMap(int mapNum){
-
-
+    
+    map = new char[5][5];
+    
     try {
 
       //sets the map depending on the number given
