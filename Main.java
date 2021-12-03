@@ -102,8 +102,9 @@ public class Main {
                 //i item
                 //p person - is removed after defeated
                 case 'w':
-                    System.out.println("A wild Pokemon has appeared.");
+
                     Pokemon wild = pokemonGenerator.generateRandomPokemon(level);
+                    System.out.println("A wild "+wild.getName() +" Pokemon has appeared.");
                     Pokemon trainerPokemon = trainer.getPokemon(0);
 
                     int numOfWildFightChoices = 4;

@@ -1,6 +1,7 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
+import java.util.Map;
 
 
 public class PokemonGenerator {
@@ -30,20 +31,18 @@ public class PokemonGenerator {
     }
     public Pokemon generateRandomPokemon(int level){
 
-        List<String> val = new ArrayList<String>(pokemon.values());
-        Pokemon newPokemon = null;
-        int ranIndex = new Random().nextInt(val.size());
-        int mH = (int)(Math.random() * 6) + 20;
-        String pokName = pokemon.get(val.get(ranIndex));
-        switch(pokName) {
-            case ("Fire"): 
-                newPokemon = new Fire(pokName, mH, mH);
-            case ("Water"):
-                newPokemon = new Water(pokName, mH, mH);
-            case ("Grass"):
-                newPokemon = new Grass(pokName, mH, mH);
+        Iterator pokeIterator = pokemon.entrySet().iterator();
+        int randIndex = (int)(Math.random() * pokemon.size());
+
+        int counter=0;
+
+        Map.Entry mapElement = null;
+        while(pokeIterator.hasNext() && counter != randIndex)
+        {
+            mapElement = (Map.Entry)pokeIterator.next();
         }
-        return newPokemon;
+
+        return getPokemon((String)mapElement.getKey());
     }
 
     public Pokemon getPokemon(String name){
