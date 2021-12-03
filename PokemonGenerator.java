@@ -78,5 +78,5 @@ public class PokemonGenerator {
         return p;
     }
 }
-}
+
 
