@@ -30,18 +30,19 @@ public class PokemonGenerator {
     }
     public Pokemon generateRandomPokemon(int level){
 
-        List<String> val = new ArrayList<String>(pokemon.values());
+        ArrayList<String> val = new ArrayList<String>(pokemon.values());
         Pokemon newPokemon = null;
-        int ranIndex = new Random().nextInt(val.size());
+        int ranIndex = (int)(Math.random() * val.size());
         int mH = (int)(Math.random() * 6) + 20;
         String pokName = pokemon.get(val.get(ranIndex));
-        switch(pokName) {
-            case ("Fire"): 
-                newPokemon = new Fire(pokName, mH, mH);
-            case ("Water"):
-                newPokemon = new Water(pokName, mH, mH);
-            case ("Grass"):
-                newPokemon = new Grass(pokName, mH, mH);
+        if(pokemon.get(pokName).equals(("Fire")))
+            newPokemon = new Fire(pokName, mH, mH);
+        else if(pokemon.get(pokName).equals(("Water")))
+            newPokemon = new Water(pokName, mH, mH);
+        else if(pokemon.get(pokName).equals(("Grass")))
+            newPokemon = new Grass(pokName, mH, mH);
+        for(int i = 0; i < level - 1; i++){
+            newPokemon = this.addRandomBuff(newPokemon);
         }
         return newPokemon;
     }
