@@ -44,18 +44,13 @@ public class Fire extends Pokemon {
    */
   @Override
   public String getAttackString(int atkType, int move) {
+    System.out.println("Inside Fire");
 
     String atkString ="";
 
-    if (atkType==1) {
-      switch (move) {
-        case 1:
-          atkString = " SLAMMED ";
-        case 2:
-          atkString =" TACKLED ";
-        case 3:
-          atkString = " PUNCHED ";
-      }
+
+    if(atkType == 1) {
+      return super.getAttackString(atkType, move);
     }
 
     else

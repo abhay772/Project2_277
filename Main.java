@@ -5,9 +5,10 @@ public class Main {
     {
         Pokemon one = PokemonGenerator.getInstance().generateRandomPokemon(1);
         Pokemon two = PokemonGenerator.getInstance().generateRandomPokemon(1);
-        Pokemon three = PokemonGenerator.getInstance().generateRandomPokemon(1);
 
-        System.out.println(one.attack(three,1,0));
+        System.out.println(one.attack(two,2,3));
+        System.out.println(two.attack(one,2,3));
+
     }
 
 

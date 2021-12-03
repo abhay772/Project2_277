@@ -13,9 +13,14 @@ public class Grass extends Pokemon{
     public int getNumAttackMenuItems(int atkType){
         return 3;
     }
+
     public String getAttackString(int atkType, int move){
-        if(atkType == 1)
+
+        System.out.println("Inside Grass");
+
+        if(atkType == 1) {
             return super.getAttackString(atkType, move);
+        }
         else{
             if(move == 1)
                 return " used VINE WHIP on ";

@@ -37,30 +37,24 @@ public class Water extends Pokemon{
      */
     @Override
     public String getAttackString(int atkType, int move){
+
+        System.out.println("Inside Water");
+
         String atkString ="";
 
-        if (atkType==1) {
-
-            switch (move) {
-                case 1:
-                    atkString = " SLAMMED ";
-                case 2:
-                    atkString =" TACKLED ";
-                case 3:
-                    atkString = " PUNCHED ";
-            }
-
+        if(atkType == 1) {
+            return super.getAttackString(atkType, move);
         }
 
         else
         {
             switch (move) {
                 case 1:
-                    atkString = " used EMBER on ";
+                    atkString = " used WATER GUN on ";
                 case 2:
-                    atkString = " used FIRE BLAST on ";
+                    atkString = " used BUBBLE BEAM on ";
                 case 3:
-                    atkString = " used FIRE PUNCH on ";
+                    atkString = " used WATERFALL on ";
             }
         }
         return atkString;

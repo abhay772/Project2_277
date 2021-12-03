@@ -33,7 +33,7 @@ public class PokemonGenerator {
 
 
         Iterator<Map.Entry<String, String>> pokeIterator = pokemon.entrySet().iterator();
-        int randIndex = (int) (Math.random() * pokemon.size());
+        int randIndex = (int) (Math.random() * pokemon.size())+1;
 
         int counter = 0;
 
@@ -44,6 +44,7 @@ public class PokemonGenerator {
         }
 
         assert mapElement != null;
+        System.out.println(randIndex);
         return getPokemon((String) mapElement.getKey());
     }
 
