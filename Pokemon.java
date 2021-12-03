@@ -25,22 +25,69 @@ public abstract class Pokemon extends Entity {
         return 2;
     }
 
-    public abstract String getAttackMenu(int atkType);
+    public String getAttackMenu(int atkType)
+    {
+        return "1. Slam\n2. Tackle\n3. Punch";
+    };
+    public int getNumAttackMenuItems(int atkType)
+    {
+        return 3;
+    };
 
-    public abstract int getNumAttackMenuItems(int atkType);
+    public String attack(Pokemon p, int atkType, int move)
+    {
+        int damage = (int) Math.round((this.getAttackDamage(atkType, move) + this.getAttackBonus(atkType))
+                * this.getAttackMultiplier(p, atkType));
+        p.takeDamage(damage);
+        return this.getName() + this.getAttackString(atkType, move) + p.getName() + " and dealt " + damage;
+    }
 
-    public abstract String attack(Pokemon p, int atkType, int move);
+    public String getAttackString(int atkType, int move)
+    {
 
-    public abstract String getAttackString(int atkType, int move);
+        return switch (move) {
+            case 1 -> "SLAMMED";
+            case 2 -> "TACKLED";
+            default -> "PUNCHED";
+        };
+    }
 
-    public abstract int getType();
+    public int getType()
+    {
+        if(this instanceof Fire)
+        {return 0;}
+        else if(this instanceof Water)
+        {return 1;}
+        else if(this instanceof Grass)
+        {return 2;}
+        else
+        {return -1;}
+    };
 
-    public abstract int getAttackDamage(int atkType, int move);
+    public int getAttackDamage(int atkType, int move)
+    {
 
-    public abstract double getAttackMultiplier(Pokemon p, int atkType);
+        return switch (move) {
+            case 1 -> (int) (Math.random() * 4);
+            case 2 -> (int) (Math.random() * 4) + 1;
+            default -> (int) (Math.random() * 3) + 1;
+        };
+    }
 
-    public abstract int getAttackBonus(int atkType);
+    public double getAttackMultiplier(Pokemon p, int atkType)
+    {
+        if(atkType==1)
+        {return 1;}
+        return this.getAttackMultiplier(p,atkType);
+    };
+
+    public int getAttackBonus(int atkType)
+    {
+        return 0;
+    };
 }
+
+
 
 /*/**
  * Menu for basic attacks

@@ -2,6 +2,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
 
+/**
+ * @author Nathanael Wolski
+ */
 public class PokemonGenerator {
 
     private HashMap<String, String> pokemon = new HashMap<String, String>();

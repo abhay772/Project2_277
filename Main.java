@@ -84,7 +84,6 @@ public class Main {
             //should auto switch map if f
 
             int chance = (int)(Math.random() * 100);
-            //System.out.println("character:" + map.getCharAtLoc(trainer.getLocation()));
             char place = map.getCharAtLoc(trainer.getLocation());
             switch (place) {
 
