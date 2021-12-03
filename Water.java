@@ -38,6 +38,8 @@ public class Water extends Pokemon{
     @Override
     public String getAttackString(int atkType, int move){
         String atkString ="";
+        atkType+=1;
+        move += 1;
 
         if (atkType==1) {
 

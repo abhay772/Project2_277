@@ -46,9 +46,9 @@ public abstract class Pokemon extends Entity {
     {
 
         return switch (move) {
-            case 1 -> "SLAMMED";
-            case 2 -> "TACKLED";
-            default -> "PUNCHED";
+            case 1 -> " SLAMMED ";
+            case 2 -> " TACKLED ";
+            default -> " PUNCHED ";
         };
     }
 

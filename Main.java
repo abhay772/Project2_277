@@ -241,6 +241,8 @@ public class Main {
                                 }
                             }
                         }
+                        if(pass)
+                        {break;}
                     }
 
                 case 'c':
