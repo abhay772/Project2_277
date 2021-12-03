@@ -336,11 +336,11 @@ public class Main {
                     if(gymPokemon.getHp() == 0) {
                         switch (level % 3) {
                             case 1:
-                                Map.loadMap(1);
+                                map.loadMap(1);
                             case 2:
-                                Map.loadMap(2);
+                                map.loadMap(2);
                             case 0:
-                                Map.loadMap(3);
+                                map.loadMap(3);
                         }
 
                         trainer.buffAllPokemon();

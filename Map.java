@@ -19,11 +19,13 @@ public class Map {
    */
   private Map( ){
 
-    map = loadMap(1);
+    loadMap(1);
     //fills in
     for (int i = 0; i < 5; i++) {
       Arrays.fill(revealed[i], false);
     }
+
+    this.loadMap(1);
   }
 
   /**
@@ -45,7 +47,7 @@ public class Map {
    *@param mapNum the integer for the map number you wish to load
    *@return char[][] the whole map
    */
-  public static char[][] loadMap(int mapNum){
+  public void loadMap(int mapNum){
     
     map = new char[5][5];
     
@@ -70,7 +72,6 @@ public class Map {
       System.out.println("Map not Loaded");
     }
 
-    return map;
   }
 
 
@@ -127,7 +128,7 @@ public class Map {
    *Find the start of the map
    *@return Point of the start
    */
-  public static Point findStart() {
+  public Point findStart() {
 
     Point Start = new Point();
     for (int i = 0; i < this.map.length; i++) {

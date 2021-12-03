@@ -23,7 +23,7 @@ public class Trainer extends Entity {
         this.money = 25;
         this.pokeballs = 5;
         this.potions = 1;
-        loc = Map.findStart();
+        loc = map.findStart();
     }
 
     /**
