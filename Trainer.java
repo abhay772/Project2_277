@@ -1,8 +1,6 @@
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
-import java.io.FileNotFoundException;
-
 
 public class Trainer extends Entity {
 
@@ -88,6 +86,7 @@ public class Trainer extends Entity {
             pokemon.get(pokeindex-1).heal();
             this.potions -= 1;
         }
+        PokemonGenerator.getInstance().addRandomBuff(pokemon.get(pokeindex-1));
     }
 
     /**
@@ -150,7 +149,7 @@ public class Trainer extends Entity {
      * @return Returns the event character if the move was valid, and '0' if the move failed.
      */
     public char goNorth(){
-        //user goes norht
+        //user goes north
         if (loc.x > 0) {
             map.reveal(this.loc);
             loc.x -= 1;
@@ -229,6 +228,18 @@ public class Trainer extends Entity {
         }
     }
 
+    public void buffAllPokemon() {
+        for(Pokemon p: pokemon) {
+            p = PokemonGenerator.getInstance().addRandomBuff(p);
+        }
+    }
+
+    public void debuffAllPokemon() {
+        for(Pokemon p: pokemon) {
+            p = PokemonGenerator.getInstance().addRandomDebuff(p);
+        }
+    }
+
     /**
      * Returns the Pokemon at the given index.
      * @param index is the index of the Pokemon to return.
@@ -249,6 +260,12 @@ public class Trainer extends Entity {
             display += i + 1 + ". " + this.getPokemon(i) + "\n";
         }
         return display;
+    }
+
+    public Pokemon removePokemon(int index)
+    {
+        pokemon.remove(index-1);
+        return pokemon;
     }
 
     /**

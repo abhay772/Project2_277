@@ -28,8 +28,9 @@ public class Main {
         PokemonGenerator pokemonGenerator = PokemonGenerator.getInstance();
         int level = 1;
         Trainer trainer = null;
+        boolean pass = false;
 
-        while (true) {
+        while (!pass) {
             //text for Pokémon
             System.out.println("Choose your first pokemon: ");
             System.out.println("1. Charmander ");
@@ -42,14 +43,18 @@ public class Main {
                     case 1 -> {
                         Pokemon charmander = pokemonGenerator.getPokemon("Charmander");
                         trainer = new Trainer(trainerName, charmander);
+                        pass = true;
                     }
                     case 2 -> {
                         Pokemon bulbasaur = pokemonGenerator.getPokemon("Bulbasaur");
                         trainer = new Trainer(trainerName, bulbasaur);
+                        pass = true;
                     }
                     case 3 -> {
                         Pokemon squirtle = pokemonGenerator.getPokemon("Squirtle");
                         trainer = new Trainer(trainerName, squirtle);
+                        pass = true;
+
                     }
                 }
             } catch (NumberFormatException ex) {
@@ -57,7 +62,9 @@ public class Main {
                 System.out.println("Invalid input.");
             }
         }
+
         int selection = 0;
+
         while (true){
             //selection
             System.out.println(trainer.toString());
@@ -186,7 +193,7 @@ public class Main {
                         } else if (fightMenuChoice == 4) {
                             //try and run away
                             int percentage = (int)(Math.random() * 100);
-                            boolean pass = false;
+                            pass = false;
 
                             //chance to run away
                             if (percentage > 60) {
@@ -310,10 +317,8 @@ public class Main {
 
                         } else {
                             //On potion use
-                            //heals the pokemon to full
-                            trainerPokemon.heal();
-                            //and applies at random a buff
-                            trainerPokemon = (((int) (Math.random() * 2)) + 1) > 1 ? (new AttackUp(trainerPokemon)) : (new HpUp(trainerPokemon));
+                            int index = trainer.getPokemonList().indexOf(String.valueOf(trainerPokemon));
+                            trainer.usePotion(index+1);
 
                             // Gym Pokemon attacks.
                             int atktype = (int) (Math.random() * gymPokemon.getNumAttackTypeMenuItems());
@@ -321,7 +326,7 @@ public class Main {
 
                             System.out.println(trainerPokemon.attack(gymPokemon,atktype,move));
 
-                            // chance of debuff to the trainer Pokemon
+                            // chance of Debuff to the trainer Pokemon
                             if ((int) (Math.random() * 100) < 10) {
                                 trainerPokemon = ((int) (Math.random() * 100)) > 50 ? (new AttackDown(trainerPokemon)) : (new HpDown(trainerPokemon));
                             }
