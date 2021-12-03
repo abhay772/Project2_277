@@ -36,11 +36,13 @@ public class PokemonGenerator {
         int mH = (int)(Math.random() * 6) + 20;
         String pokName = pokemon.get(val.get(ranIndex));
         switch(pokName) {
-            case ("Fire") -> newPokemon = new Fire(pokName, mH, mH);
-            case ("Water") -> newPokemon = new Water(pokName, mH, mH);
-            case ("Grass") -> newPokemon = new Grass(pokName, mH, mH);
+            case ("Fire"): 
+                newPokemon = new Fire(pokName, mH, mH);
+            case ("Water"):
+                newPokemon = new Water(pokName, mH, mH);
+            case ("Grass"):
+                newPokemon = new Grass(pokName, mH, mH);
         }
-        
         return newPokemon;
     }
 
