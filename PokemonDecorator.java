@@ -70,6 +70,8 @@ public abstract class PokemonDecorator extends Pokemon {
      */
     public double getAttackMultiplier(Pokemon p,int atkType)
     {
+        if(atkType==1)
+        {return 1;}
         return pokemon.getAttackMultiplier(p,atkType);
     }
 
