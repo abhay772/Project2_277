@@ -1,5 +1,7 @@
+/**
+ * @author Abhay Solanki
+ */
 public abstract class PokemonDecorator extends Pokemon {
-
 
     protected Pokemon pokemon;
 
@@ -83,7 +85,7 @@ public abstract class PokemonDecorator extends Pokemon {
      */
     public int getAttackBonus(int atkType)
     {
-        return 0;
+       return super.getAttackBonus(atkType);
     }
 
     public int getType()

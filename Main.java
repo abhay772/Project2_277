@@ -40,15 +40,15 @@ public class Main {
                 switch (CheckInput.getIntRange(1,3)) {
                     //check what user entered and grant them their pokemon
                     case 1 -> {
-                        Pokemon charmander = new Charmander();
+                        Pokemon charmander = pokemonGenerator.getPokemon("Charmander");
                         trainer = new Trainer(trainerName, charmander, map);
                     }
                     case 2 -> {
-                        Pokemon bulbasaur = new Bulbasaur();
+                        Pokemon bulbasaur = pokemonGenerator.getPokemon("Bulbasaur");
                         trainer = new Trainer(trainerName, bulbasaur, map);
                     }
                     case 3 -> {
-                        Pokemon squirtle = new Squirtle();
+                        Pokemon squirtle = pokemonGenerator.getPokemon("Squirtle");
                         trainer = new Trainer(trainerName, squirtle, map);
                     }
                 }

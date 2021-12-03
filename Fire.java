@@ -1,5 +1,7 @@
 
-
+/**
+ * @author Abhay Solanki
+ */
 public class Fire extends Pokemon {
 
   public Fire(String n, int h, int m) {

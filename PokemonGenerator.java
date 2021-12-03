@@ -2,13 +2,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
 
-/**
- * @author Nathanael Wolski
- */
+
 public class PokemonGenerator {
 
     private HashMap<String, String> pokemon = new HashMap<String, String>();
     private static PokemonGenerator instance = null;
+
     private PokemonGenerator(){
         String file = "src/PokemonList.txt";
         try {
@@ -30,6 +29,7 @@ public class PokemonGenerator {
             return instance;
     }
     public Pokemon generateRandomPokemon(int level){
+
         List<String> val = new ArrayList<String>(pokemon.values());
         Pokemon newPokemon = null;
         int ranIndex = new Random().nextInt(val.size());
@@ -46,17 +46,20 @@ public class PokemonGenerator {
         }
         return newPokemon;
     }
+    
     public Pokemon getPokemon(String name){
-        Pokemon newPokemon;
+
+        Pokemon newPokemon = null;
         int mH = (int)(Math.random() * 6) + 20;
         String type = pokemon.get(name);
-        if(type.equals(("Fire")))
-            return newPokemon = new Fire(name, mH, mH);
-        else if(type.equals(("Water")))
-            return newPokemon = new Water(name, mH, mH);
-        else if(type.equals(("Grass")))
-            return newPokemon = new Grass(name, mH, mH);
+        switch (type) {
+            case ("Fire") -> newPokemon = new Fire(name, mH, mH);
+            case ("Water") -> newPokemon = new Water(name, mH, mH);
+            case ("Grass") -> newPokemon = new Grass(name, mH, mH);
+        }
+        return newPokemon;
     }
+
     public Pokemon addRandomBuff(Pokemon p){
         if(((new Random().nextInt(2)) == 1)){
             p = new AttackUp(p);

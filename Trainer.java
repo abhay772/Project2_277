@@ -3,9 +3,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.io.FileNotFoundException;
 
-/**
- * @author Nathanael Wolski
- */
+
 public class Trainer extends Entity {
 
     private int money;
