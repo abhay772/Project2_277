@@ -46,18 +46,14 @@ public class Water extends Pokemon{
             return super.getAttackString(atkType, move);
         }
 
-        else
-        {
-            switch (move) {
-                case 1:
-                    atkString = " used WATER GUN on ";
-                case 2:
-                    atkString = " used BUBBLE BEAM on ";
-                case 3:
-                    atkString = " used WATERFALL on ";
-            }
-        }
-        return atkString;
+
+        return switch (move) {
+            case 1 -> " used WATER GUN on ";
+            case 2 -> " used BUBBLE BEAM on ";
+            case 3 -> " used WATERFALL on ";
+            default -> throw new IllegalStateException("Unexpected value: " + move);
+        };
+
     }
 
     /**

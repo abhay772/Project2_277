@@ -21,14 +21,14 @@ public class Grass extends Pokemon{
         if(atkType == 1) {
             return super.getAttackString(atkType, move);
         }
-        else{
-            if(move == 1)
-                return " used VINE WHIP on ";
-            else if(move == 2)
-                return " used RAZOR LEAF on ";
-            else
-                return " used SOLAR BEAM on ";
-        }
+
+        return switch (move) {
+            case 1 -> " used VINE WHIP on ";
+            case 2 -> " used RAZOR LEAF on ";
+            case 3 -> " used SOLAR BEAM on ";
+            default -> throw new IllegalStateException("Unexpected value: " + move);
+        };
+
     }
 
     public int getAttackDamage(int atkType, int move){

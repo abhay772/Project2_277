@@ -53,18 +53,13 @@ public class Fire extends Pokemon {
       return super.getAttackString(atkType, move);
     }
 
-    else
-    {
-      switch (move) {
-        case 1:
-          atkString = " used EMBER on ";
-        case 2:
-          atkString = " used FIRE BLAST on ";
-        case 3:
-          atkString = " used FIRE PUNCH on ";
-      }
-    }
-    return atkString;
+    return switch (move) {
+      case 1 -> " used EMBER on ";
+      case 2 -> " used FIRE BLAST on ";
+      case 3 -> " used FIRE PUNCH on ";
+      default -> throw new IllegalStateException("Unexpected value: " + move);
+    };
+
   }
 
   /**
