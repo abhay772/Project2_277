@@ -18,16 +18,14 @@ public class Trainer extends Entity {
      * intializes Starting money, potions, pokeballs, map and pokemon.
      * @param n This is the name of the Trainer
      * @param p This is the starting pokemon
-     * @param m This is the starting map for the Trainer
      */
-    Trainer(String n, Pokemon p, Map m) {
+    Trainer(String n, Pokemon p) {
         super(n, 25, 25);
         pokemon.add(p);
-        this.map = m;
         this.money = 25;
         this.pokeballs = 5;
         this.potions = 1;
-        loc = m.findStart();
+        loc = Map.findStart();
     }
 
     /**
@@ -86,7 +84,7 @@ public class Trainer extends Entity {
      */
     public void usePotion(int pokeindex) {
         //use potion on pokemon
-        if (hasPotion() == true) {
+        if (hasPotion()) {
             pokemon.get(pokeindex-1).heal();
             this.potions -= 1;
         }
@@ -150,9 +148,8 @@ public class Trainer extends Entity {
     /**
      * Moves the Trainer to the immediate North tile on the Map, if it is not out of bounds.
      * @return Returns the event character if the move was valid, and '0' if the move failed.
-     * @exception FileNotFoundException, Throws an exception if cannot find the file for the next Map.
      */
-    public char goNorth() throws FileNotFoundException {
+    public char goNorth(){
         //user goes norht
         if (loc.x > 0) {
             map.reveal(this.loc);
@@ -168,9 +165,8 @@ public class Trainer extends Entity {
     /**
      * Moves the Trainer to the immediate East tile on the Map, if it is not out of bounds.
      * @return Returns the event character if the move was valid, and '0' if the move failed.
-     * @exception FileNotFoundException, Throws an exception if cannot find the file for the next Map.
      */
-    public char goEast() throws FileNotFoundException {
+    public char goEast(){
         //user goes east
         if (loc.y < 4) {
             map.reveal(this.loc);
@@ -186,9 +182,8 @@ public class Trainer extends Entity {
     /**
      * Moves the Trainer to the immediate South tile on the Map, if it is not out of bounds.
      * @return Returns the event character if the move was valid, and '0' if the move failed.
-     * @exception FileNotFoundException, Throws an exception if cannot find the file for the next Map.
      */
-    public char goSouth() throws FileNotFoundException {
+    public char goSouth(){
         //user goes south
         if (loc.x < 4) {
             map.reveal(this.loc);
@@ -205,9 +200,8 @@ public class Trainer extends Entity {
     /**
      * Moves the Trainer to the immediate West tile on the Map, if it is not out of bounds.
      * @return Returns the event character if the move was valid, and '0' if the move failed.
-     * @exception FileNotFoundException, Throws an exception if cannot find the file for the next Map.
      */
-    public char goWest() throws FileNotFoundException {
+    public char goWest(){
         if (loc.y > 0) {
             map.reveal(this.loc);
             loc.y -= 1;

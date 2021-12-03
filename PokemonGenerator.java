@@ -46,7 +46,7 @@ public class PokemonGenerator {
         }
         return newPokemon;
     }
-    
+
     public Pokemon getPokemon(String name){
 
         Pokemon newPokemon = null;
@@ -69,6 +69,7 @@ public class PokemonGenerator {
         }
         return p;
     }
+
     public Pokemon addRandomDebuff(Pokemon p){
         if(((new Random().nextInt(2)) == 1)){
             p = new AttackDown(p);

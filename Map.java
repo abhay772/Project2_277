@@ -127,7 +127,7 @@ public class Map {
    *Find the start of the map
    *@return Point of the start
    */
-  public Point findStart() {
+  public static Point findStart() {
 
     Point Start = new Point();
     for (int i = 0; i < this.map.length; i++) {

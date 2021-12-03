@@ -41,15 +41,15 @@ public class Main {
                     //check what user entered and grant them their pokemon
                     case 1 -> {
                         Pokemon charmander = pokemonGenerator.getPokemon("Charmander");
-                        trainer = new Trainer(trainerName, charmander, map);
+                        trainer = new Trainer(trainerName, charmander);
                     }
                     case 2 -> {
                         Pokemon bulbasaur = pokemonGenerator.getPokemon("Bulbasaur");
-                        trainer = new Trainer(trainerName, bulbasaur, map);
+                        trainer = new Trainer(trainerName, bulbasaur);
                     }
                     case 3 -> {
                         Pokemon squirtle = pokemonGenerator.getPokemon("Squirtle");
-                        trainer = new Trainer(trainerName, squirtle, map);
+                        trainer = new Trainer(trainerName, squirtle);
                     }
                 }
             } catch (NumberFormatException ex) {
@@ -110,7 +110,6 @@ public class Main {
                                             3. Throw Poke Ball
                                             4. Run Away
                                             """;
-
                     while(true){
 
                         System.out.println(wildFightChoice);
@@ -121,8 +120,11 @@ public class Main {
 
                             if(trainerPokemon == null)
                             {
-                                System.out.println("You left the Gym.");
-                                break;
+                                int atktype = (int) (Math.random() * wild.getNumAttackTypeMenuItems());
+                                int move = (int) (Math.random() * wild.getNumAttackMenuItems(atktype));
+
+                                int damage = (int) Math.round((wild.getAttackDamage(atktype, move) + wild.getAttackBonus(atktype)));
+                                System.out.println(trainerName+" got attacked by the Wild Pokemon and took "+ damage);
                             }
 
                             if(trainerPokemon.getHp() == 0)
@@ -144,23 +146,22 @@ public class Main {
 
                         else if (fightMenuChoice == 2) {
                             //On potion use
-                            //heals the pokemon to full
+                            //heals the Pokemon to full
                             trainerPokemon.heal();
                             //and applies at random a buff
-                            trainerPokemon = (((int) (Math.random() * 2)) + 1) > 1 ? (new AttackUp(trainerPokemon)) : (new HpUp(trainerPokemon));
+                            //trainerPokemon = (((int) (Math.random() * 2)) + 1) > 1 ? (new AttackUp(trainerPokemon)) : (new HpUp(trainerPokemon));
+                            trainerPokemon = pokemonGenerator.addRandomBuff(trainerPokemon);
 
                             // wild Pokemon attacks.
                             int atktype = (int) (Math.random() * wild.getNumAttackTypeMenuItems());
                             int move = (int) (Math.random() * wild.getNumAttackMenuItems(atktype));
 
-                            int damage = (int) Math.round((wild.getAttackDamage(atktype, move) + wild.getAttackBonus(atktype))
-                                    * wild.getAttackMultiplier(trainerPokemon, atktype));
-                            trainerPokemon.takeDamage(damage);
-                            System.out.println(wild.getName() + wild.getAttackString(atktype, move) + trainerPokemon.getName() + " and dealt " + damage);
+                            System.out.println(wild.attack(trainerPokemon,atktype,move));
 
                             // chance of debuff to the trainer Pokemon
                             if ((int) (Math.random() * 100) < 10) {
-                                trainerPokemon = ((int) (Math.random() * 100)) > 50 ? (new AttackDown(trainerPokemon)) : (new HpDown(trainerPokemon));
+                                trainerPokemon = pokemonGenerator.addRandomDebuff(trainerPokemon);
+
                             }
                         }
 
@@ -168,20 +169,17 @@ public class Main {
                             //attempt to catch Pokemon
                             boolean caught = trainer.catchPokemon(wild);
 
-                            // If the catching attempt is a fail, the pokemon attacks.
+                            // If the catching attempt is a fail, the Pokemon attacks.
                             if (!caught) {
                                 // Pokemon attacks.
                                 int atktype = (int) (Math.random() * wild.getNumAttackTypeMenuItems());
                                 int move = (int) (Math.random() * wild.getNumAttackMenuItems(atktype));
 
-                                int damage = (int) Math.round((wild.getAttackDamage(atktype, move) + wild.getAttackBonus(atktype))
-                                        * wild.getAttackMultiplier(trainerPokemon, atktype));
-                                trainerPokemon.takeDamage(damage);
-                                System.out.println(wild.getName() + wild.getAttackString(atktype, move) + trainerPokemon.getName() + " and dealt " + damage);
+                                System.out.println(wild.attack(trainerPokemon,atktype,move));
 
-                                // chance of debuff to the trainer Pokemon
+                                // chance of Debuff to the trainer Pokemon
                                 if ((int) (Math.random() * 100) < 10) {
-                                    trainerPokemon = ((int) (Math.random() * 100)) > 50 ? (new AttackDown(trainerPokemon)) : (new HpDown(trainerPokemon));
+                                    trainerPokemon = pokemonGenerator.addRandomDebuff(trainerPokemon);
                                 }
                             }
 
@@ -218,7 +216,7 @@ public class Main {
                                                 pass = true;
                                             }
                                     }
-                                } ;
+                                }
                             } else {
                                 //failed to run away
                                 System.out.println("You failed to run away.");
@@ -227,14 +225,11 @@ public class Main {
                                 int atktype = (int) (Math.random() * wild.getNumAttackTypeMenuItems());
                                 int move = (int) (Math.random() * wild.getNumAttackMenuItems(atktype));
 
-                                int damage = (int) Math.round((wild.getAttackDamage(atktype, move) + wild.getAttackBonus(atktype))
-                                        * wild.getAttackMultiplier(trainerPokemon, atktype));
-                                trainerPokemon.takeDamage(damage);
-                                System.out.println(wild.getName() + wild.getAttackString(atktype, move) + trainerPokemon.getName() + " and dealt " + damage);
+                                System.out.println(wild.attack(trainerPokemon,atktype,move));
 
                                 // chance of debuff to the trainer Pokemon
                                 if ((int) (Math.random() * 100) < 10) {
-                                    trainerPokemon = ((int) (Math.random() * 100)) > 50 ? (new AttackDown(trainerPokemon)) : (new HpDown(trainerPokemon));
+                                    trainerPokemon = pokemonGenerator.addRandomDebuff(trainerPokemon);
                                 }
                             }
                         }
@@ -324,10 +319,7 @@ public class Main {
                             int atktype = (int) (Math.random() * gymPokemon.getNumAttackTypeMenuItems());
                             int move = (int) (Math.random() * gymPokemon.getNumAttackMenuItems(atktype));
 
-                            int damage = (int) Math.round((gymPokemon.getAttackDamage(atktype, move) + gymPokemon.getAttackBonus(atktype))
-                                    * gymPokemon.getAttackMultiplier(trainerPokemon, atktype));
-                            trainerPokemon.takeDamage(damage);
-                            System.out.println(gymPokemon.getName() + gymPokemon.getAttackString(atktype, move) + trainerPokemon.getName() + " and dealt " + damage);
+                            System.out.println(trainerPokemon.attack(gymPokemon,atktype,move));
 
                             // chance of debuff to the trainer Pokemon
                             if ((int) (Math.random() * 100) < 10) {
@@ -429,9 +421,7 @@ public class Main {
         System.out.println(p.getAttackMenu(atktype));
         int move = CheckInput.getIntRange(1, p.getNumAttackMenuItems(atktype));
 
-        int damage = (int) Math.round((p.getAttackDamage(atktype,move)+p.getAttackBonus(atktype)) * p.getAttackMultiplier(wild,atktype));
-        wild.takeDamage(damage);
-        System.out.println(p.getName()+p.getAttackString(atktype,move)+wild.getName()+" and dealt "+damage);
+        System.out.println(p.attack(wild, atktype,move));
 
         // chance of debuff to the wild pokemon
         if((int)(Math.random() * 100) < 25)
@@ -446,9 +436,7 @@ public class Main {
         atktype = (int)(Math.random() * wild.getNumAttackTypeMenuItems());
         move = (int)(Math.random() * wild.getNumAttackMenuItems(atktype));
 
-        damage = (int) Math.round((wild.getAttackDamage(atktype,move)+wild.getAttackBonus(atktype)) * wild.getAttackMultiplier(p,atktype));
-        p.takeDamage(damage);
-        System.out.println(wild.getName()+wild.getAttackString(atktype,move)+p.getName()+" and dealt "+damage);
+        System.out.println(wild.attack(p,atktype,move));
 
         // chance of debuff to the trainer Pokemon
         if((int)(Math.random() * 100) < 10)
