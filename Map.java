@@ -47,7 +47,6 @@ public class Map {
    */
   public static char[][] loadMap(int mapNum){
 
-    char[][] map = new char[5][5];
 
     try {
 
