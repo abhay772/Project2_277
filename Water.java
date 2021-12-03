@@ -43,11 +43,11 @@ public class Water extends Pokemon{
 
             switch (move) {
                 case 1:
-                    atkString = "SLAMMED";
+                    atkString = " SLAMMED ";
                 case 2:
-                    atkString ="TACKLED";
+                    atkString =" TACKLED ";
                 case 3:
-                    atkString = "PUNCHED";
+                    atkString = " PUNCHED ";
             }
 
         }
@@ -56,11 +56,11 @@ public class Water extends Pokemon{
         {
             switch (move) {
                 case 1:
-                    atkString = " used EMBER on";
+                    atkString = " used EMBER on ";
                 case 2:
-                    atkString = " used FIRE BLAST on";
+                    atkString = " used FIRE BLAST on ";
                 case 3:
-                    atkString = " used FIRE PUNCH on";
+                    atkString = " used FIRE PUNCH on ";
             }
         }
         return atkString;
