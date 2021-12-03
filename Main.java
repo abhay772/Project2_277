@@ -9,7 +9,7 @@ public class Main {
         Pokemon two = PokemonGenerator.getInstance().generateRandomPokemon(1);
 
         int atktype = (int)(Math.random() * one.getNumAttackTypeMenuItems())+1;
-        int rand = (int) (Math.random() * one.getNumAttackTypeMenuItems()+1)+1;
+        int rand = (int) (Math.random() * one.getNumAttackTypeMenuItems())+1;
 
         System.out.println(rand+" "+atktype);
         System.out.println(one.attack(two,atktype,rand));
@@ -154,7 +154,7 @@ public class Main {
                             if(trainerPokemon == null)
                             {
                                 int atktype = (int) (Math.random() * wild.getNumAttackTypeMenuItems())+1;
-                                int move = (int) (Math.random() * wild.getNumAttackMenuItems(atktype)+1)+1;
+                                int move = (int) (Math.random() * wild.getNumAttackMenuItems(atktype))+1;
 
                                 int damage = (int) Math.round((wild.getAttackDamage(atktype, move) + wild.getAttackBonus(atktype)));
                                 System.out.println(trainerName+" got attacked by the Wild Pokemon and took "+ damage);
@@ -187,7 +187,7 @@ public class Main {
 
                             // wild Pokemon attacks.
                             int atktype = (int) (Math.random() * wild.getNumAttackTypeMenuItems())+1;
-                            int move = (int) (Math.random() * wild.getNumAttackMenuItems(atktype)+1)+1;
+                            int move = (int) (Math.random() * wild.getNumAttackMenuItems(atktype))+1;
 
                             System.out.println(wild.attack(trainerPokemon,atktype,move));
 
@@ -206,7 +206,7 @@ public class Main {
                             if (!caught) {
                                 // Pokemon attacks.
                                 int atktype = (int) (Math.random() * wild.getNumAttackTypeMenuItems())+1;
-                                int move = (int) (Math.random() * wild.getNumAttackMenuItems(atktype)+1)+1;
+                                int move = (int) (Math.random() * wild.getNumAttackMenuItems(atktype))+1;
 
                                 System.out.println(wild.attack(trainerPokemon,atktype,move));
 
@@ -224,31 +224,21 @@ public class Main {
                             //chance to run away
                             if (percentage > 60) {
                                 System.out.println("You successfully ran away.");
-                                while (!pass) {
-                                    switch ((int)(Math.random() * 4)) {
-                                        case 0:
-                                            //go direction and see if legal move
-                                            if (trainer.goEast() != '0') {
-                                                pass = true;
-                                            }
-                                        case 1:
-                                            //go direction and see if legal move
 
+                                        //go direction and see if legal move
+                                        if (trainer.goEast() == '0') {
+                                            System.out.println("You ran into a mysterious wall!");
                                             if (trainer.goNorth() == '0') {
-                                                pass = true;
+                                                System.out.println("You ran into a mysterious wall!");
+                                                if (trainer.goSouth() == '0') {
+                                                    System.out.println("You ran into a mysterious wall!");
+                                                    trainer.goWest();
+                                                }
+                                                else{break;}
                                             }
-                                        case 2:
-                                            //go direction and see if legal move
-
-                                            if (trainer.goSouth() == '0') {
-                                                pass = true;
-                                            }
-                                        case 3:
-                                            //go direction and see if legal move
-                                            if (trainer.goWest() !=  '0') {
-                                                pass = true;
-                                            }
-                                    }
+                                            else{break;}
+                                        }
+                                        else{break;}
                                 }
                             } else {
                                 //failed to run away
@@ -256,7 +246,7 @@ public class Main {
 
                                 // Pokemon attacks.
                                 int atktype = (int) (Math.random() * wild.getNumAttackTypeMenuItems())+1;
-                                int move = (int) (Math.random() * wild.getNumAttackMenuItems(atktype)+1)+1;
+                                int move = (int) (Math.random() * wild.getNumAttackMenuItems(atktype))+1;
 
                                 System.out.println(wild.attack(trainerPokemon,atktype,move));
 
@@ -266,12 +256,6 @@ public class Main {
                                 }
                             }
                         }
-                        if(pass)
-                        {break;}
-                    }
-
-                case 'c':
-                    store(trainer);
                 case 'p':
                     int rs = (int) (Math.random() * 3);
 
@@ -301,7 +285,8 @@ public class Main {
                     trainer.takeDamage(10);
                     map.removeCharAtLoc(trainer.getLocation());
                 }
-
+                case 'c':
+                    store(trainer);
                 case 'f':
                     System.out.println("You've found the Gym...");
                     Pokemon gymPokemon = pokemonGenerator.generateRandomPokemon(level+2);
@@ -350,7 +335,7 @@ public class Main {
 
                             // Gym Pokemon attacks.
                             int atktype = (int) (Math.random() * gymPokemon.getNumAttackTypeMenuItems()) +1 ;
-                            int move = (int) (Math.random() * gymPokemon.getNumAttackMenuItems(atktype)+1) +1 ;
+                            int move = (int) (Math.random() * gymPokemon.getNumAttackMenuItems(atktype)) +1 ;
 
                             System.out.println(trainerPokemon.attack(gymPokemon,atktype,move));
 
@@ -415,7 +400,7 @@ public class Main {
         return selection;
     }
 
-    
+
 
     //BATTLE LOOP
     /**
@@ -450,12 +435,12 @@ public class Main {
         */
 
         System.out.println(p.getAttackTypeMenu());
-        int atktype = CheckInput.getIntRange(1,p.getNumAttackTypeMenuItems())+1;
+        int atktype = CheckInput.getIntRange(1,p.getNumAttackTypeMenuItems());
 
         // player attacks
         // attack menu and choice of move by the player
         System.out.println(p.getAttackMenu(atktype));
-        int move = CheckInput.getIntRange(1, p.getNumAttackMenuItems(atktype))+1;
+        int move = CheckInput.getIntRange(1, p.getNumAttackMenuItems(atktype));
 
         System.out.println(p.attack(wild, atktype,move));
 
@@ -470,8 +455,9 @@ public class Main {
 
         // Pokemon attacks.
         atktype = (int)(Math.random() * wild.getNumAttackTypeMenuItems())+1;
-        move = (int)(Math.random() * wild.getNumAttackMenuItems(atktype)+1)+1;
+        move = (int)(Math.random() * wild.getNumAttackMenuItems(atktype))+1;
 
+        System.out.println(atktype+" "+move);
         System.out.println(wild.attack(p,atktype,move));
 
         // chance of debuff to the trainer Pokemon
@@ -500,7 +486,7 @@ public class Main {
         do {
             //check if user wants the store or the hospital
             System.out.println("1. Store");
-            System.out.println("2. Pokemon Hopstial");
+            System.out.println("2. Pokemon Hopstial\n3. Exit");
             store = scanner.nextInt();
             switch (store) {
                 case 2:
@@ -512,7 +498,7 @@ public class Main {
                     choice = 3;
                     break;
                 //anything else aka the store
-                default:
+                case 1:
                     try {
                         //store menu
                         System.out.println("Hello! What can I help you with?");
@@ -553,6 +539,6 @@ public class Main {
                         continue;
                     }
             }
-        } while (choice != 3);
+        } while (store != 3);
     }
 }
